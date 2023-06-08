@@ -1,5 +1,5 @@
 class Review < ApplicationRecord
-  validates :url, presence: true
+  validates :business_id, presence: true
   validates :title, presence: true
   validates :content, presence: true
   validates :author, presence: true

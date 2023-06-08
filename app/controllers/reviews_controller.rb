@@ -24,7 +24,14 @@ class ReviewsController < ApplicationController
 
   def scrape_reviews
     scraper = Scraper.new(url_params)
+    render json: {error: scraper.error}, status: 400 and return if !scraper.valid?
+
     reviews = scraper.get_reviews
+    if scraper.error
+      render json: {error: scraper.error}, status: 422
+    else
+      render json: reviews, status: :created
+    end
   end
 
   private
