@@ -7,6 +7,7 @@
 This is a API designed to accept a URL from lendingtree.com such as `https://www.lendingtree.com/reviews/business/ondeck/51886298`, and return a list of all reviews for the given business. This can be a large number depending on the business, and the default behavior is to return all reviews. It also accepts an optional parameter of `page_limit` to reduce the number of reviews that will be returned to a given number of pages (pagination determined by the website itself).
 
 #### Request Format
+
 ```json
 {
 	"url": "https://www.lendingtree.com/reviews/business/fundbox-inc/111943337",
@@ -42,6 +43,7 @@ This is a API designed to accept a URL from lendingtree.com such as `https://www
 ### Technologies
 
 - Ruby on Rails
+- SQLite3
 - Nokogiri
 - Rspec
 

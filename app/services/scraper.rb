@@ -15,12 +15,14 @@ class Scraper
   end
 
   def valid?
+    url_regex = Regexp.new('https://www\\.lendingtree\\.com/reviews/business/.*/[0-9]+', Regexp::IGNORECASE)
+
     if @url.blank?
       @error = 'Must include URL'
     elsif !valid_url?
       @error = 'Invalid URL'
-    elsif !@url.include?(BASE_URL)
-      @error = "Must use lendingtree URL"
+    elsif !@url.match(url_regex)
+      @error = "Must use valid lendingtree URL"
     end
     @error.nil?
   end
@@ -47,19 +49,15 @@ class Scraper
   def get_reviews
     begin
 
-      # determine number of reviews on the current page (is this a fixed max number?)
+      # determine number of reviews on the current page
       # determine number of total reviews (can be found in hidden html element), calculate number of total pages
       # loop from first to last page
       # Scrape what you need, create a Review with relevant data
 
       page_number = 1
-      scraped_reviews = self.scrape_page(page_number).css(REVIEW_CSS_TAG)
-
-      # max number of reviews per page
-      reviews_per_page = scraped_reviews.count # is this always 10?
+      reviews_per_page = 10 # I believe this is a constant
 
       total_reviews = self.scrape_page(page_number).css(".start-rating-reviews").css(".hidden-xs").text.split[0].to_i
-
       total_pages = (total_reviews.to_f / reviews_per_page).round
 
       while page_number <= (@page_limit || total_pages)

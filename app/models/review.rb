@@ -5,8 +5,6 @@ class Review < ApplicationRecord
   validates :author, presence: true
   validates :rating, presence: true, :inclusion => 0..5
   validates :date, presence: true
-  # validates :loan_type, presence: true
-  # validates :review_type, presence: true
 
   validates :content, uniqueness: true
 end
