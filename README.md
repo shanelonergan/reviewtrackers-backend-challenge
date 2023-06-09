@@ -1,24 +1,20 @@
 # README
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+## ReviewTrackers Take Home Code Challenge
 
-Things you may want to cover:
+### Requirements
 
-* Ruby version
+1. Please write in ruby or python
+2. Use this website: https://www.lendingtree.com/reviews/business
+3. Write a web service that accepts requests of 'business' URLs (i.e. https://www.lendingtree.com/reviews/business/ondeck/51886298)
+4. This service should collect all 'reviews' on the URL defined
+5. The response should consist of: title of the review, the content of review, author, star rating, date of review, and any other info you think would be relevant
+6. Write tests for your API
+7. No need to make a view and datastore is optional
+8. Error/bad request handling should be built out
 
-* System dependencies
+### Design Philosphy
 
-* Configuration
+### Technologies
 
-* Database creation
-
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
+### Stretch Goals
