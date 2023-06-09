@@ -10,12 +10,12 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_06_08_171153) do
+ActiveRecord::Schema[7.0].define(version: 2023_06_09_161755) do
   create_table "reviews", force: :cascade do |t|
     t.string "title"
     t.text "content"
     t.string "author"
-    t.string "rating"
+    t.integer "rating"
     t.string "date"
     t.boolean "closed"
     t.string "loan_type"

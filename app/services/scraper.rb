@@ -9,6 +9,7 @@ class Scraper
 
   def initialize(url_params)
     @url = url_params[:url]
+    @page_limit = url_params[:page_limit]&.to_i
     @business_id = url_params[:url]&.split('/')&.last&.to_i
     @error
   end
@@ -16,10 +17,7 @@ class Scraper
   def valid?
     if !@url.include?(BASE_URL)
       @error = "Must use lendingtree URL"
-    elsif !@business_id
-      @error = "Incomplete lendingtree URL"
     end
-
     @error.nil?
   end
 
@@ -60,9 +58,8 @@ class Scraper
       total_reviews = self.scrape_page(page_number).css(".start-rating-reviews").css(".hidden-xs").text.split[0].to_i
 
       total_pages = (total_reviews.to_f / reviews_per_page).round
-      # byebug
 
-      # until page_number == total_pages
+      while page_number <= (@page_limit || total_pages)
         reviews = self.scrape_page(page_number).css(REVIEW_CSS_TAG)
         reviews.each do |review|
           closed_with_lender = review.css(".yes").text.to_s.empty? ? false : true
@@ -71,7 +68,7 @@ class Scraper
             title: review.css(".reviewTitle").text,
             content: review.css(".reviewText").text,
             author: review.css('p.consumerName').text.strip.split.join(" "),
-            rating: review.css('div.numRec').text.strip.delete("()").split('of').first,
+            rating: review.css('div.numRec').text.strip.delete("()").split('of').first.to_i,
             date: review.css(".consumerReviewDate").text,
             closed: closed_with_lender,
             loan_type: review.css(".loanType")[0].text || '',
@@ -80,12 +77,12 @@ class Scraper
           )
         end
 
-        # page_number += 1
-      # end
+        page_number += 1
+      end
 
     rescue => error
       puts error
-      @error = 'Something went wrong'
+      @error = 'Something went wrong. Please check your URL'
     else
       Review.all.where(business_id: @business_id)
     end

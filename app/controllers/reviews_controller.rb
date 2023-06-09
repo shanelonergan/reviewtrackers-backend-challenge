@@ -41,7 +41,7 @@ class ReviewsController < ApplicationController
   end
 
   def url_params
-    params.permit(:url)
+    params.permit(:url, :page_limit)
   end
 
   def review_params
