@@ -15,7 +15,9 @@ class Scraper
   end
 
   def valid?
-    if !valid_url?
+    if @url.blank?
+      @error = 'Must include URL'
+    elsif !valid_url?
       @error = 'Invalid URL'
     elsif !@url.include?(BASE_URL)
       @error = "Must use lendingtree URL"
@@ -82,7 +84,6 @@ class Scraper
       end
 
     rescue => error
-      puts error
       @error = 'Something went wrong. Please check your URL and try again'
     else
       Review.all.where(business_id: @business_id)

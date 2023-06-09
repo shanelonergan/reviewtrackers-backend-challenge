@@ -42,5 +42,12 @@ RSpec.describe "review API", :type => :request do
       expect(json_response).to eq "error" => "Invalid URL"
       expect(response.status).to eq 400
     end
+
+    it "returns an error for request with no url" do
+      post "/scrape_reviews"
+      json_response = JSON.parse(response.body)
+      expect(json_response).to eq "error" => "Must include URL"
+      expect(response.status).to eq 400
+    end
   end
 end
