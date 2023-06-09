@@ -15,22 +15,23 @@ class Scraper
   end
 
   def valid?
-    if !@url.include?(BASE_URL)
+    if !valid_url?
+      @error = 'Invalid URL'
+    elsif !@url.include?(BASE_URL)
       @error = "Must use lendingtree URL"
     end
     @error.nil?
   end
 
+  def valid_url?
+    uri = URI.parse(@url)
+    uri.host.present?
+  rescue URI::InvalidURIError
+      false
+  end
+
   def scrape_from_url(url)
-    begin
-      Nokogiri::HTML(URI.open(url))
-    rescue OpenURI::HTTPError => error
-      if error.message == '404 Not Found'
-        @error = error.message
-      else
-        raise error
-      end
-    end
+    Nokogiri::HTML(URI.open(url))
   end
 
   def scrape_page(page_number)
@@ -82,7 +83,7 @@ class Scraper
 
     rescue => error
       puts error
-      @error = 'Something went wrong. Please check your URL'
+      @error = 'Something went wrong. Please check your URL and try again'
     else
       Review.all.where(business_id: @business_id)
     end

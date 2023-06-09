@@ -25,7 +25,7 @@ RSpec.describe "review API", :type => :request do
     it "returns an error for an invalid lendingtree url" do
       post "/scrape_reviews", params: {url: "https://www.lendingtree.com/reviews/"}
       json_response = JSON.parse(response.body)
-      expect(json_response).to eq "error" => "Something went wrong. Please check your URL"
+      expect(json_response).to eq "error" => "Something went wrong. Please check your URL and try again"
       expect(response.status).to eq 422
     end
 
@@ -39,7 +39,7 @@ RSpec.describe "review API", :type => :request do
     it "returns an error for an invalid url" do
       post "/scrape_reviews", params: {url: "test"}
       json_response = JSON.parse(response.body)
-      expect(json_response).to eq "error" => "Must use lendingtree URL"
+      expect(json_response).to eq "error" => "Invalid URL"
       expect(response.status).to eq 400
     end
   end

@@ -1,4 +1,4 @@
 Rails.application.routes.draw do
-  resources :reviews
+  resources :reviews, only: [:create]
   post "/scrape_reviews", to: "reviews#scrape_reviews"
 end
